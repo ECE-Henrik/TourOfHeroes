@@ -1,21 +1,23 @@
-name: CI
-
-on: 
+yaml
+name: TourOfHeoresCI
+on:
   push:
-    # only trigger on branches, not on tags
-    branches: '**'
-
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-        with:
-          # checkout full tree
-          fetch-depth: 0
-      - run: |
-          for commit in $(git rev-list ${{ github.event.before}}..${{ github.sha}}); do
-              git checkout $commit
-              echo "run test"
-          done
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '18.x'
+    - name: Run Yarn 
+      run: yarn
+    - name: Run tests
+      run: yarn test
