@@ -1,21 +1,24 @@
-name: CI
+name: dotnet package
 
-on: 
-  push:
-    # only trigger on branches, not on tags
-    branches: '**'
+on: [push]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '6.0.x' ]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
         with:
-          # checkout full tree
-          fetch-depth: 0
-      - run: |
-          for commit in $(git rev-list ${{ github.event.before}}..${{ github.sha}}); do
-              git checkout $commit
-              echo "run test"
-          done
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
