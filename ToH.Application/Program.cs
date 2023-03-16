@@ -19,5 +19,6 @@ var initScreen = screenFactory.CreateScreen(typeof(LoginScreen));
 
 var controller = new Controller();
 var ui = new Ui(controller, initScreen, log, screenFactory);
+Console.WriteLine("hej");
 
 controller.ListenForInput();
