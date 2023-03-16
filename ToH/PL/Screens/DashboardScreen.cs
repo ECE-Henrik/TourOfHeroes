@@ -72,7 +72,7 @@ public class DashboardScreen : Screen
         _printer.PrintLine("+++++++++++++++++++++++++");
         foreach (var (index, hero) in heroes.Select((value, i) => (i, value)))
         {
-            _printer.PrintLine($" {(index + 1 == cursorPosition ? "*" : " ")} | {hero.Name.ToUpper()}");
+            _printer.PrintLine($" {(index + 1 == cursorPosition ? "*" : " ")} | {hero?.Name?.ToUpper()}");
         }
     }
 }

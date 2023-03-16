@@ -1,4 +1,5 @@
 using Moq;
+using System.Diagnostics.CodeAnalysis;
 using ToH.BLL;
 using ToH.Log;
 using ToH.PL;
@@ -9,6 +10,7 @@ namespace ToH.Tests.Screens;
 
 public class UiTest
 {
+    private static bool IsNotNull([NotNullWhen(true)] object? obj) => obj != null;
     private readonly Ui uut;
     private Mock<Controller> _controller;
     private Mock<Screen?> _screen;
@@ -27,12 +29,16 @@ public class UiTest
     [Fact]
     public void ShouldExecuteInitOne_WhenConstructed()
     {
-        var screen = new Mock<Screen?>();
+        var screen = new Mock<Screen>();
         // Act
         var uut = new Ui(_controller.Object, screen.Object, _log.Object, _screenFactory.Object);
 
         // Assert
-        screen.Verify(screen => screen.Init(), Times.Once);
+        if (screen is not null)
+        {
+            screen.Verify(screen => screen.Init(), Times.Once);
+        }
+        
     }
     
     [Fact]
@@ -43,9 +49,9 @@ public class UiTest
         
         // Act
         uut.Update();
-        
+
         // Assert
-        _screen.Verify(screen => screen.None(It.Is<Ui>(ui => ui.Equals(uut))), Times.Once);
+        _screen.Verify(screen => screen!.None(It.Is<Ui>(ui => ui.Equals(uut))), Times.Once);
     }
     
     [Fact]
@@ -58,7 +64,7 @@ public class UiTest
         uut.Update();
         
         // Assert
-        _screen.Verify(screen => screen.Down(It.Is<Ui>(ui => ui.Equals(uut))), Times.Once);
+        _screen.Verify(screen => screen!.Down(It.Is<Ui>(ui => ui.Equals(uut))), Times.Once);
     }
     
     [Fact]
@@ -71,7 +77,7 @@ public class UiTest
         uut.Update();
         
         // Assert
-        _screen.Verify(screen => screen.Up(It.Is<Ui>(ui => ui.Equals(uut))), Times.Once);
+        _screen.Verify(screen => screen!.Up(It.Is<Ui>(ui => ui.Equals(uut))), Times.Once);
     }
     
     [Fact]
@@ -82,9 +88,10 @@ public class UiTest
         
         // Act
         uut.Update();
-        
+
         // Assert
-        _screen.Verify(screen => screen.Enter(It.Is<Ui>(ui => ui.Equals(uut))), Times.Once);
+        //SPØRGSMÅL TIL HENRIK. 
+        _screen.Verify(screen => screen!.Enter(It.Is<Ui>(ui => ui.Equals(uut))), Times.Once);
     }
 
 }
