@@ -67,7 +67,7 @@ public class HeroesListScreen : Screen
         _printer.PrintLine("   | Id | Name ");
         foreach (var (index, hero) in heroes.Select((value, i) => (i, value)))
         {
-            _printer.PrintLine($" {(index == cursorPosition ? "*" : " ")} | {hero.Id} | {hero.Name.ToUpper()}");
+            _printer.PrintLine($" {(index == cursorPosition ? "*" : " ")} | {hero.Id} | {hero.Name?.ToUpper()}");
         }
     } 
 

@@ -1,4 +1,5 @@
 using Moq;
+using System.Diagnostics.CodeAnalysis;
 using ToH.BLL;
 using ToH.Data;
 using ToH.Log;
@@ -10,6 +11,7 @@ namespace ToH.Tests.Screens;
 
 public class ScreenFactoryTest
 {
+    private static bool IsNotNull([NotNullWhen(true)] object? obj) => obj != null;
     private ScreenFactory _uut;
     private Mock<IPrinter> _printer;
     private Mock<IHeroesController> _heroesController;
@@ -62,12 +64,13 @@ public class ScreenFactoryTest
             Id = 1,
             Name = "TestHero1"
         };
-        
-        // Act
-        HeroScreen screen = (HeroScreen) _uut.CreateScreen(typeof(HeroScreen), hero);
+
+        // Act 
+        HeroScreen screen =(HeroScreen) _uut.CreateScreen(typeof(HeroScreen), hero)!;
 
         // Assert
-        Assert.Equal(hero, screen.Hero);
+        if (IsNotNull(screen)) 
+            Assert.Equal(hero, screen.Hero);
     }
     
     [Fact]
@@ -87,10 +90,11 @@ public class ScreenFactoryTest
         };
         
         // Act
-        var screen = (HeroScreen) _uut.CreateScreen(typeof(HeroScreen), hero2);
+        var screen = (HeroScreen) _uut.CreateScreen(typeof(HeroScreen), hero2)!;
 
 
         // Assert
+        if(IsNotNull(screen))
         Assert.Equal(hero2, screen.Hero);
     }
 

@@ -1,0 +1,3 @@
+16-03-2023 08:44:57 - INFO - Logger initialized.
+16-03-2023 08:44:59 - INFO - LoginScreen.Text: Switching to DashboardScreen with username sejehugo
+16-03-2023 08:44:59 - DEBUG - DashboardScreen.DrawDashboard: printing 2 heroes

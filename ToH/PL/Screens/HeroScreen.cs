@@ -23,7 +23,7 @@ public class HeroScreen : Screen
         _printer.PrintLine("Hero details");
         _printer.PrintLine("");
         _printer.PrintLine($"Id: {Hero.Id}");
-        _printer.PrintLine($"Name: {Hero.Name.ToUpper()}");
+        _printer.PrintLine($"Name: {Hero.Name?.ToUpper()}");
     }
 
     public override void Escape(IUi ui)
